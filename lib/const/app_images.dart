@@ -8,4 +8,5 @@ class AppImages {
   static const String userImg = "assets/images/user_img.png";
   static const String visaImg = "assets/images/visa.png";
   static const String chipImg = "assets/images/seal.png";
+  static const String userProfileImage = "assets/images/user_profile.png";
 }

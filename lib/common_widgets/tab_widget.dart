@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:testdemo/common_widgets/content_heading_widget.dart';
+import 'package:testdemo/common_widgets/transaction_list_widget.dart';
 import 'package:testdemo/const/app_color.dart';
 import 'package:testdemo/const/app_str.dart';
-import 'package:testdemo/widgets/transaction_list_widget.dart';
 
 class TabWidget extends StatelessWidget {
   const TabWidget({

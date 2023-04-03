@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:testdemo/common_widgets/recent_transactioninfo_widget.dart';
+import 'package:testdemo/const/app_images.dart';
 import 'package:testdemo/helper/space_widget.dart';
-import 'package:testdemo/widgets/recent_transactioninfo_widget.dart';
 
 class TransactionListWidget extends StatelessWidget {
   const TransactionListWidget({
@@ -25,7 +26,7 @@ class TransactionListWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
-            'assets/images/user_profile.png',
+            AppImages.userProfileImage,
             height: height * 0.05,
           ),
           horizontalSpace(width * 0.03),

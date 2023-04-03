@@ -3,19 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:testdemo/bloc/home_page_bloc.dart';
 import 'package:testdemo/common_widgets/content_heading_widget.dart';
+import 'package:testdemo/common_widgets/financial_goal_indicator.dart';
 import 'package:testdemo/common_widgets/label_value_widget.dart';
+import 'package:testdemo/common_widgets/performance_chart_widget.dart';
+import 'package:testdemo/common_widgets/top_user_widget.dart';
+import 'package:testdemo/common_widgets/transaction_list_widget.dart';
 import 'package:testdemo/const/app_color.dart';
 import 'package:testdemo/const/app_images.dart';
 import 'package:testdemo/const/app_str.dart';
-import 'package:testdemo/get_user_model.dart';
 import 'package:testdemo/helper/space_widget.dart';
-import 'package:testdemo/model/chart_model.dart';
 import 'package:testdemo/pages/my_save_card.dart';
-import 'package:testdemo/widgets/financial_goal_indicator.dart';
-import '../widgets/transaction_list_widget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -28,26 +27,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final HomeScreenBloc _bloc = HomeScreenBloc();
-
-  TooltipBehavior? tooltipBehavior;
-  TrackballBehavior? trackballBehavior;
-  final List<ChartData> chartData = <ChartData>[
-    ChartData(x: 'Jan', yValue1: 200, yValue2: 45),
-    ChartData(x: 'Feb', yValue1: 200, yValue2: 100),
-    ChartData(x: 'Mar', yValue1: 200, yValue2: 125),
-    ChartData(x: 'Apr', yValue1: 200, yValue2: 90),
-    ChartData(x: 'May', yValue1: 200, yValue2: 60),
-    ChartData(x: 'June', yValue1: 200, yValue2: 140)
-  ];
-
-  LinearGradient? gradientColors;
-
+  
   void _screenState(BuildContext context, HomeScreenState state) {}
 
   @override
   void initState() {
     super.initState();
-    tooltipBehavior = TooltipBehavior(enable: true);
     _bloc.add(LoadUserEvent());
   }
 
@@ -223,37 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               verticalSpace(height * 0.025),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: SfCartesianChart(
-                  plotAreaBorderWidth: 0,
-                  primaryXAxis: CategoryAxis(isVisible: true),
-                  primaryYAxis: NumericAxis(isVisible: true),
-                  tooltipBehavior: tooltipBehavior,
-                  series: <ChartSeries>[
-                    ColumnSeries<ChartData, String>(
-                      color: Color.fromRGBO(239, 241, 253, 1),
-                      dataSource: chartData,
-                      gradient: gradientColors,
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.yValue1,
-                    ),
-                    SplineSeries<ChartData, String>(
-                      dataSource: chartData,
-                      splineType: SplineType.cardinal,
-                      color: Colors.blue,
-                      cardinalSplineTension: 0.9,
-                      xValueMapper: (ChartData data, _) {
-                        return data.x;
-                      },
-                      yValueMapper: (ChartData data, _) {
-                        return data.yValue2;
-                      },
-                      animationDuration: 4000,
-                    )
-                  ],
-                ),
-              ),
+              PerformanceChartWidget(),
               verticalSpace(height * 0.029),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.04),
@@ -357,80 +312,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class TopUserWidget extends StatelessWidget {
-  const TopUserWidget({
-    Key? key,
-    required this.getUserList,
-    required this.width,
-    required this.height,
-    required this.isLoading,
-  }) : super(key: key);
-
-  final List<UserModel> getUserList;
-  final double width;
-  final double height;
-  final bool isLoading;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: ListView.builder(
-        itemCount: isLoading ? 8 : getUserList.length,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          if (isLoading) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.01),
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Container(
-                      width: height * 0.06,
-                      height: height * 0.06,
-                      color: Colors.grey[300],
-                    ),
-                  ),
-                  verticalSpace(height * 0.012),
-                  Container(
-                    width: width * 0.2,
-                    height: 20,
-                    color: Colors.grey[200],
-                  ),
-                ],
-              ),
-            );
-          }
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.01),
-            child: Column(
-              children: [
-                Image.asset(
-                  AppImages.userImg,
-                  height: height * 0.06,
-                ),
-                verticalSpace(height * 0.012),
-                SizedBox(
-                  width: width * 0.2,
-                  child: Text(
-                    getUserList[index].name ?? '',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: AppColor.blackColor,
-                        ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
       ),
     );
   }
